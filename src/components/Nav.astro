@@ -1,0 +1,214 @@
+---
+const navLinks = [
+  { label: 'Home', href: '/' },
+  // { label: 'About', href: '/about' },
+  // { label: 'Blog',  href: '/blog'  },
+];
+
+const { pathname } = Astro.url;
+
+function isActive(href: string): boolean {
+  return href === '/' ? pathname === '/' : pathname.startsWith(href);
+}
+---
+
+<!--
+  Alpine manages open/closed state for the mobile menu.
+  The hamburger-to-X animation is done purely in CSS via [aria-expanded].
+-->
+<nav class="site-nav" aria-label="Main navigation" x-data="{ open: false }">
+
+  <button
+    class="nav-toggle"
+    :class="{ 'is-open': open }"
+    :aria-expanded="String(open)"
+    aria-controls="nav-menu"
+    aria-label="Toggle navigation menu"
+    @click="open = !open"
+    @keydown.escape="open = false"
+  >
+    <span class="hamburger" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+
+  <ul
+    id="nav-menu"
+    class="nav-menu"
+    role="list"
+    :class="{ 'is-open': open }"
+    @keydown.escape="open = false"
+  >
+    {navLinks.map(({ label, href }) => (
+      <li>
+        <a
+          href={href}
+          class="nav-link"
+          aria-current={isActive(href) ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+</nav>
+
+<style>
+  /* ---- Desktop layout -------------------------------------------------- */
+
+  .site-nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    position: relative;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    text-decoration: none;
+    padding-block: var(--space-1);
+    transition: color var(--transition-fast);
+  }
+
+  /* Animated underline indicator */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    transform: scaleX(0);
+    transition: transform var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link[aria-current='page'] {
+    color: var(--color-primary);
+  }
+
+  /* ---- Hamburger icon -------------------------------------------------- */
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 22px;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    border-radius: var(--radius-full);
+    transform-origin: center;
+    transition:
+      transform var(--transition-base),
+      opacity  var(--transition-base);
+  }
+
+  /*
+    Hamburger → X animation driven by .is-open class (set by Alpine).
+    Spans 1 and 3 translate ±8px to meet at the center line, then rotate.
+    (With gap:6px and height:2px, each span center is 8px from span-2 center.)
+  */
+  .nav-toggle.is-open .hamburger span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .nav-toggle.is-open .hamburger span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .nav-toggle.is-open .hamburger span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* ---- Mobile layout (≤ 48em / 768px) --------------------------------- */
+
+  @media (max-width: 48em) {
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-2);
+      color: var(--color-text);
+      border-radius: var(--radius-md);
+      transition: background-color var(--transition-fast);
+    }
+
+    .nav-toggle:hover {
+      background-color: var(--color-surface);
+    }
+
+    /*
+      Dropdown positioned below the hamburger button.
+      Uses right:0 so it aligns to the button edge.
+    */
+    .nav-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + var(--space-3));
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      min-width: 180px;
+      background: var(--color-bg);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding-block: var(--space-2);
+      z-index: var(--z-above);
+    }
+
+    .nav-menu.is-open {
+      display: flex;
+    }
+
+    .nav-menu li {
+      width: 100%;
+    }
+
+    .nav-link {
+      display: block;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    /* No underline indicator in the dropdown */
+    .nav-link::after {
+      display: none;
+    }
+
+    .nav-link[aria-current='page'] {
+      background-color: var(--color-surface);
+    }
+  }
+</style>
