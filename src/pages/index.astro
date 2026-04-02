@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../config/site';
 
-// WebSite schema — appears on every home page
+// Schema appears on every home page
 const jsonLD = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -14,7 +14,7 @@ const jsonLD = {
 
 <!--
   Home page: title is intentionally omitted so the <title> renders as just
-  the site name ("Site Name") rather than "Home | Site Name".
+  the site name ("Site Name") rather than "Home - Site Name".
 -->
 <BaseLayout
   description={SITE.description}

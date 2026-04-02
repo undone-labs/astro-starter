@@ -1,7 +1,7 @@
 ---
 const navLinks = [
-  { label: 'Home',  href: '/'       },
-  { label: 'About', href: '/about'  },
+  { label: 'Home',  href: '/'      },
+  { label: 'About', href: '/about' },
 ];
 
 const { pathname } = Astro.url;
@@ -12,10 +12,13 @@ function isActive(href: string): boolean {
 ---
 
 <!--
-  Alpine manages open/closed state for the mobile menu.
-  The hamburger-to-X animation is done purely in CSS via [aria-expanded].
+  Indicator logic:
+  - A single <span> is absolutely positioned inside the <ul>
+  - Alpine tracks hovered/focused link dimensions via getBoundingClientRect
+  - On mouseleave it snaps back to the aria-current="page" link
+  - Transition is disabled on init so the indicator doesn't slide in from 0,0
 -->
-<nav class="site-nav" aria-label="Main navigation" x-data="{ open: false }">
+<nav class="site-nav" aria-label="Main navigation" x-data="siteNav">
 
   <button
     class="nav-toggle"
@@ -37,8 +40,10 @@ function isActive(href: string): boolean {
     id="nav-menu"
     class="nav-menu"
     role="list"
+    x-ref="menu"
     :class="{ 'is-open': open }"
     @keydown.escape="open = false"
+    @mouseleave="reset()"
   >
     {navLinks.map(({ label, href }) => (
       <li>
@@ -46,17 +51,63 @@ function isActive(href: string): boolean {
           href={href}
           class="nav-link"
           aria-current={isActive(href) ? 'page' : undefined}
+          @mouseenter="move($el)"
+          @focus="move($el)"
         >
           {label}
         </a>
       </li>
     ))}
+
+    <span
+      class="nav-indicator"
+      :class="{ 'is-ready': ready }"
+      :style="`left: ${left}px; width: ${width}px`"
+      aria-hidden="true"
+    ></span>
   </ul>
 
 </nav>
 
+<!--
+  is:inline so this runs before Alpine's bundled script, allowing
+  alpine:init to register the component before Alpine processes the DOM.
+-->
+<script is:inline>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('siteNav', () => ({
+      open:  false,
+      left:  0,
+      width: 0,
+      ready: false,
+
+      init() {
+        this.$nextTick(() => {
+          const active = this.$refs.menu.querySelector('[aria-current="page"]');
+          if (active) this.move(active);
+          // Enable transition only after the initial snap
+          setTimeout(() => { this.ready = true; }, 50);
+        });
+      },
+
+      move(el) {
+        const menu = this.$refs.menu.getBoundingClientRect();
+        const item = el.getBoundingClientRect();
+        this.left  = item.left - menu.left;
+        this.width = item.width;
+      },
+
+      reset() {
+        const active = this.$refs.menu.querySelector('[aria-current="page"]');
+        if (active) this.move(active);
+        else this.width = 0;
+      },
+    }));
+  });
+</script>
+
 <style>
-  /* ---- Desktop layout -------------------------------------------------- */
+  /* ---- Desktop --------------------------------------------------------- */
 
   .site-nav {
     position: relative;
@@ -69,6 +120,7 @@ function isActive(href: string): boolean {
   }
 
   .nav-menu {
+    position: relative; /* required for indicator absolute positioning */
     display: flex;
     align-items: center;
     gap: var(--space-6);
@@ -85,31 +137,24 @@ function isActive(href: string): boolean {
     transition: color var(--transition-fast);
   }
 
-  /* Animated underline indicator */
-  .nav-link::after {
-    content: '';
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    color: var(--color-primary);
+  }
+
+  /* Floating indicator — single element that slides between links */
+  .nav-indicator {
     position: absolute;
     bottom: -2px;
-    left: 0;
-    right: 0;
     height: 2px;
     background: var(--color-primary);
     border-radius: var(--radius-full);
-    transform: scaleX(0);
-    transition: transform var(--transition-fast);
+    pointer-events: none;
+    /* No transition on load — snaps to active link instantly */
   }
 
-  .nav-link:hover {
-    color: var(--color-primary);
-  }
-
-  .nav-link:hover::after,
-  .nav-link[aria-current='page']::after {
-    transform: scaleX(1);
-  }
-
-  .nav-link[aria-current='page'] {
-    color: var(--color-primary);
+  .nav-indicator.is-ready {
+    transition: left 250ms ease-out, width 250ms ease-out;
   }
 
   /* ---- Hamburger icon -------------------------------------------------- */
@@ -132,11 +177,6 @@ function isActive(href: string): boolean {
       opacity  var(--transition-base);
   }
 
-  /*
-    Hamburger → X animation driven by .is-open class (set by Alpine).
-    Spans 1 and 3 translate ±8px to meet at the center line, then rotate.
-    (With gap:6px and height:2px, each span center is 8px from span-2 center.)
-  */
   .nav-toggle.is-open .hamburger span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
@@ -148,7 +188,7 @@ function isActive(href: string): boolean {
     transform: translateY(-8px) rotate(-45deg);
   }
 
-  /* ---- Mobile layout (≤ 48em / 768px) --------------------------------- */
+  /* ---- Mobile ---------------------------------------------------------- */
 
   @media (max-width: 48em) {
     .nav-toggle {
@@ -168,10 +208,6 @@ function isActive(href: string): boolean {
       background-color: var(--color-surface);
     }
 
-    /*
-      Dropdown positioned below the hamburger button.
-      Uses right:0 so it aligns to the button edge.
-    */
     .nav-menu {
       display: none;
       position: absolute;
@@ -202,14 +238,13 @@ function isActive(href: string): boolean {
       padding: var(--space-3) var(--space-4);
     }
 
-    /* No underline indicator in the dropdown */
-    .nav-link::after {
-      display: none;
-    }
-
     .nav-link[aria-current='page'] {
       background-color: var(--color-surface-2);
       color: var(--color-text);
+    }
+
+    .nav-indicator {
+      display: none;
     }
   }
 </style>
