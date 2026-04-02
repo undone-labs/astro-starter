@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(bun:*)",
-      "WebFetch(domain:github.com)",
-      "WebSearch"
-    ]
-  }
-}
