@@ -14,7 +14,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="error-message">
         Sorry, we couldn't find what you were looking for.
       </p>
-      <a href="/" class="btn btn-primary">Go home</a>
+      <a href="/" class="btn btn-primary magnify-onhover">Go home</a>
     </div>
   </section>
 </BaseLayout>
@@ -41,6 +41,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     line-height: 1;
     color: var(--color-border);
     letter-spacing: -0.04em;
+    -webkit-user-select: none;
     user-select: none;
   }
 

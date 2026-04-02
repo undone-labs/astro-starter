@@ -9,18 +9,15 @@ A static site template repo built with [Astro](https://astro.build) and [Alpine.
 - **Plain CSS** — custom properties, fluid type scale, no framework
 - **Bun** — package manager and script runner
 
----
 
-## Getting started
+## Quickstart
 
 ```bash
-bun install
-bun dev        # http://localhost:11220
-bun build      # outputs to dist/
-bun preview    # preview the dist/ build locally
+bun install    # requires node 22+
+bun dev        # local development
+bun build      # outputs to ./dist
+bun preview    # preview the ./dist build locally
 ```
-
----
 
 ## Directory structure
 
@@ -65,13 +62,12 @@ bun preview    # preview the dist/ build locally
 └── package.json
 ```
 
----
 
 ## Configuration
 
 ### Site metadata
 
-Edit `src/config/site.ts` before deploying:
+Edit `src/config/site.ts` before new deployments
 
 ```ts
 export const SITE = {
@@ -106,8 +102,6 @@ server: {
 },
 ```
 
----
-
 ## Adding pages
 
 Create a new `.astro` file in `src/pages/`. Pass `title` and `description` to `BaseLayout`:
@@ -140,11 +134,7 @@ const navLinks = [
 ];
 ```
 
----
-
-## SEO
-
-### Per-page metadata
+### SEO
 
 All props are optional and fall back to values in `src/config/site.ts`:
 
@@ -182,9 +172,7 @@ Only pass developer-controlled data — never raw user input.
 
 Generated automatically at build time by `@astrojs/sitemap`. The output file is `dist/sitemap-index.xml`. It will 404 in dev, this is expected.
 
----
-
-## Fonts
+### Fonts
 
 Self hosted fonts are recommended.
 
@@ -202,6 +190,79 @@ Self hosted fonts are recommended.
 }
 ```
 
+## Utilities and Conventions
+
+### Heading utility classes
+
+Apply heading visual styles to any element without changing its semantic role:
+
+```html
+<p class="h2">Visually an h2, semantically a paragraph</p>
+<span class="h4">Visually an h4</span>
+```
+
+`.h1` through `.h6` mirror the corresponding heading sizes and weights from the type scale.
+
+#### `.markdown`
+
+Apply to any wrapper containing rendered markdown or long-form content. Handles headings, paragraphs, lists (with custom bullet dots), blockquotes, tables, inline code, and code blocks — all styled with the site's design tokens.
+
+```html
+<div class="markdown">
+  <h2>Section</h2>
+  <p>Body copy with <code>inline code</code>.</p>
+  <ul>
+    <li>Custom bullet dot</li>
+    <li>Nested list gets a hollow ring bullet</li>
+  </ul>
+  <blockquote>Callout text</blockquote>
+</div>
+```
+
+Pair with a `max-width` constraint for comfortable line lengths:
+
+```css
+.markdown { max-width: 68ch; }
+```
+
+#### `[data-tooltip]`
+
+Pure CSS tooltip. Add a `data-tooltip` attribute to any element:
+
+```html
+<button data-tooltip="Helpful hint">Hover me</button>
+<abbr data-tooltip="HyperText Markup Language">HTML</abbr>
+```
+
+The tooltip appears below the element on hover. Styled with `--color-surface-2` and `--color-border-h`.
+
+#### `.video-wrapper`
+
+Responsive 16:9 container for `<iframe>` or `<video>` embeds:
+
+```html
+<div class="video-wrapper">
+  <iframe src="https://www.youtube.com/embed/…" allowfullscreen></iframe>
+</div>
+```
+
+#### `.magnify-onhover`
+
+Subtle `scale(1.05)` on hover with directional easing (ease-in on enter, ease-out on leave):
+
+```html
+<a href="/page" class="btn btn-primary magnify-onhover">Get started</a>
+```
+
+### Body state classes
+
+Toggle classes on `<body>` to control page-level state:
+
+```js
+document.body.classList.add('no-scroll')   // disable scroll (e.g. while a modal is open)
+document.body.classList.add('no-cursor')   // hide cursor (e.g. custom cursor implementations)
+```
+
 ## Security headers
 
 Production headers are configured in `public/_headers` (Cloudflare Pages format). The Content Security Policy includes `unsafe-eval` required by Alpine.js v3. Tighten `img-src` and `connect-src` as needed for your CDN or API domains.
@@ -211,7 +272,7 @@ Dev server headers are set in the `vite.server.headers` block in `astro.config.m
 
 ## Deployment
 
-Assuming a static site host like Cloudflare Pages, Github Pages, Netlify:
+Assuming a static site host like Cloudflare Pages, Github Pages, Netlify, etc.
 
 - Build command: `bun run build`
 - Set output directory: `dist`

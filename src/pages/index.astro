@@ -26,8 +26,8 @@ const jsonLD = {
       <h1>{SITE.name}</h1>
       <p class="hero-tagline">{SITE.tagline}</p>
       <div class="hero-actions">
-        <a href="#" class="btn btn-primary">Get started</a>
-        <a href="#" class="btn btn-outline">Learn more</a>
+        <a href="#" class="btn btn-primary magnify-onhover">Get started</a>
+        <a href="#" class="btn btn-outline magnify-onhover">Learn more</a>
       </div>
     </div>
   </section>
@@ -36,19 +36,21 @@ const jsonLD = {
   <section class="demo-section">
     <div class="container">
       <div class="demo-card" x-data="{ count: 0 }">
-        <p>Alpine counter demo:</p>
+        <p>Alpine demo</p>
         <div class="counter">
           <button
             class="btn btn-outline"
             @click="count--"
             :disabled="count <= 0"
             aria-label="Decrement"
+            data-tooltip="Decrement"
           >−</button>
           <output x-text="count" aria-live="polite" aria-atomic="true">0</output>
           <button
             class="btn btn-outline"
             @click="count++"
             aria-label="Increment"
+            data-tooltip="Increment"
           >+</button>
         </div>
       </div>

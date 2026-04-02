@@ -1,5 +1,10 @@
+/* Foundation base — grid, normalize, typography, UI components */
+@import './foundation.min.css';
+
+/* Our reset adds modern CSS on top of Foundation's normalize */
 @import './reset.css';
 @import './variables.css';
+@import './prose.css';
 
 /* ---------------------------------------------------------------------------
    Self-hosted fonts — uncomment and fill in to use local fonts.
@@ -17,6 +22,20 @@
 --------------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------------
+   Selection
+--------------------------------------------------------------------------- */
+
+::selection {
+  background-color: var(--color-primary);
+  color: #0d0e12;
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: #0d0e12;
+}
+
+/* ---------------------------------------------------------------------------
    Base
 --------------------------------------------------------------------------- */
 
@@ -32,6 +51,7 @@ body {
   letter-spacing: var(--tracking-normal);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   min-height: 100svh;
 }
 
@@ -190,4 +210,114 @@ p + p {
 .btn-ghost:hover {
   background-color: var(--color-surface);
   color: var(--color-text);
+}
+
+/* ---------------------------------------------------------------------------
+   Heading utility classes — apply heading styles to any element without
+   changing its semantic role. Mirrors h1–h6 sizing + weight.
+   Convention from zero-core / nuxt3-starter.
+--------------------------------------------------------------------------- */
+
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+.h1 { font-size: var(--text-4xl); }
+.h2 { font-size: var(--text-3xl); }
+.h3 { font-size: var(--text-2xl); }
+.h4 { font-size: var(--text-xl); }
+.h5 { font-size: var(--text-lg); }
+.h6 { font-size: var(--text-base); font-weight: var(--font-semibold); }
+
+/* ---------------------------------------------------------------------------
+   Body state classes
+--------------------------------------------------------------------------- */
+
+body.no-scroll  { overflow-y: hidden; }
+body.no-cursor  { cursor: none; }
+
+/* ---------------------------------------------------------------------------
+   [data-tooltip] — pure CSS tooltip via data attribute.
+   Usage: <button data-tooltip="Helpful hint">…</button>
+--------------------------------------------------------------------------- */
+
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+  transition: 150ms ease-in;
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+[data-tooltip]::before,
+[data-tooltip]::after {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0.5rem);
+  pointer-events: none;
+  opacity: 0;
+  transition: 150ms ease-out;
+  z-index: var(--z-modal);
+}
+
+[data-tooltip]::before {
+  content: '';
+  top: calc(100% + 2px);
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-bottom: 0.375rem solid var(--color-surface-2);
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  top: calc(100% + 0.5rem);
+  background-color: var(--color-surface-2);
+  border: var(--border-width) solid var(--color-border-h);
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* ---------------------------------------------------------------------------
+   .video-wrapper — responsive 16:9 embed container.
+   Usage: <div class="video-wrapper"><iframe …></iframe></div>
+--------------------------------------------------------------------------- */
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+
+.video-wrapper iframe,
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   .magnify-onhover — subtle scale on hover.
+   ease-in on enter, ease-out on leave (zero-core convention).
+--------------------------------------------------------------------------- */
+
+.magnify-onhover {
+  transition: transform 250ms ease-out;
+}
+
+.magnify-onhover:hover {
+  transition: transform 250ms ease-in;
+  transform: scale(1.05);
 }
