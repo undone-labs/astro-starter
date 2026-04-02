@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // Set this to your production domain — required for sitemap + canonical URLs
-  site: 'https://example.com',
+  site: 'https://foo.com',
 
   output: 'static',
 
@@ -13,9 +13,11 @@ export default defineConfig({
     sitemap(),
   ],
 
-  // Security headers for the dev server.
-  // For production static deploys, see public/_headers (Netlify/Cloudflare)
-  // or netlify.toml — static adapters don't serve headers at runtime.
+  // Security headers for the development server
+  server: {
+    port: 11220,
+  },
+
   vite: {
     server: {
       headers: {

@@ -19,7 +19,7 @@ const {
   canonicalURL,
 } = Astro.props;
 
-const fullTitle = title ? `${title} | ${SITE.name}` : SITE.name;
+const fullTitle = title ? `${title} - ${SITE.name}` : SITE.name;
 const canonical  = canonicalURL?.toString();
 
 // OG images must be absolute. Resolve relative paths against the site origin.

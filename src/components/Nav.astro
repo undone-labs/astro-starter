@@ -77,9 +77,10 @@ function isActive(href: string): boolean {
 
   .nav-link {
     position: relative;
-    color: var(--color-text);
+    color: var(--color-text-muted);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
     text-decoration: none;
     padding-block: var(--space-1);
     transition: color var(--transition-fast);
@@ -181,7 +182,7 @@ function isActive(href: string): boolean {
       align-items: flex-start;
       gap: 0;
       min-width: 180px;
-      background: var(--color-bg);
+      background: var(--color-surface);
       border: var(--border-width) solid var(--color-border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
@@ -208,7 +209,8 @@ function isActive(href: string): boolean {
     }
 
     .nav-link[aria-current='page'] {
-      background-color: var(--color-surface);
+      background-color: var(--color-surface-2);
+      color: var(--color-text);
     }
   }
 </style>
