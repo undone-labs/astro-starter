@@ -263,7 +263,51 @@ document.body.classList.add('no-scroll')   // disable scroll (e.g. while a modal
 document.body.classList.add('no-cursor')   // hide cursor (e.g. custom cursor implementations)
 ```
 
-## Security headers
+### Breakpoints
+
+Named breakpoint tokens are defined in `src/styles/variables.css` for reference:
+
+| Token            | Value  |
+|------------------|--------|
+| `--bp-tiny`      | 320px  |
+| `--bp-small`     | 480px  |
+| `--bp-medium`    | 640px  |
+| `--bp-large`     | 768px  |
+| `--bp-xlarge`    | 1024px |
+| `--bp-xxlarge`   | 1280px |
+| `--bp-xxxlarge`  | 1536px |
+
+CSS custom properties cannot be used directly inside `@media` queries, so these tokens serve as named documentation anchors. Use the raw pixel values in your media queries:
+
+```css
+@media (min-width: 768px) { /* --bp-large */
+  .my-component { display: grid; }
+}
+```
+
+### Cross-browser compatibility
+
+`src/styles/x-browser.css` (imported automatically via `global.css`) handles browser-specific quirks:
+
+- **Firefox** — removes inner button focus ring; fixes `select` focus ring rendering
+- **WebKit/Blink** — styles file upload button; suppresses number input spinners; removes search field decorations
+- **All browsers** — cross-browser `::placeholder` colour (each vendor prefix as its own rule)
+- **iOS Safari** — prevents font-size inflation after orientation change (`text-size-adjust`)
+- **Touch devices** — removes tap highlight flash on links and buttons (`-webkit-tap-highlight-color`)
+
+Number input spinners are suppressed globally. Re-enable them on a per-element basis if needed:
+
+```css
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: auto;
+}
+input[type='number'] {
+  -moz-appearance: auto;
+}
+```
+
+### Security headers
 
 Production headers are configured in `public/_headers` (Cloudflare Pages format). The Content Security Policy includes `unsafe-eval` required by Alpine.js v3. Tighten `img-src` and `connect-src` as needed for your CDN or API domains.
 

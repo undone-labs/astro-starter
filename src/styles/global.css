@@ -5,6 +5,7 @@
 @import './reset.css';
 @import './variables.css';
 @import './prose.css';
+@import './x-browser.css';
 
 /* ---------------------------------------------------------------------------
    Self-hosted fonts — uncomment and fill in to use local fonts.

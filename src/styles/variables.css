@@ -81,6 +81,19 @@
   --header-height:     4rem;
 
   /* -------------------------------------------------------------------------
+     Breakpoints — use in media queries as: @media (min-width: 480px) { … }
+     Named tokens for reference only; CSS custom properties can't be used
+     directly inside @media, so these serve as documentation anchors.
+  -------------------------------------------------------------------------- */
+  --bp-tiny:     320px;
+  --bp-small:    480px;
+  --bp-medium:   640px;
+  --bp-large:    768px;
+  --bp-xlarge:   1024px;
+  --bp-xxlarge:  1280px;
+  --bp-xxxlarge: 1536px;
+
+  /* -------------------------------------------------------------------------
      Borders
   -------------------------------------------------------------------------- */
   --radius-sm:    0.2rem;
