@@ -1,33 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../config/site';
+import { loadGlobal, loadPage } from '../lib/content';
 
-// Schema appears on every home page
+const global = loadGlobal();
+const { meta, content } = loadPage('home');
+const c = content as {
+  heading: string;
+  tagline: string;
+  cta_primary: string;
+  cta_primary_href: string;
+  cta_secondary: string;
+  cta_secondary_href: string;
+};
+
 const jsonLD = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: SITE.name,
-  description: SITE.description,
-  url: SITE.url,
+  name: global.name,
+  description: global.description,
+  url: global.url,
 };
 ---
 
-<!--
-  Home page: title is intentionally omitted so the <title> renders as just
-  the site name ("Site Name") rather than "Home - Site Name".
--->
 <BaseLayout
-  description={SITE.description}
+  title={meta.title ?? undefined}
+  description={meta.description}
+  ogImage={meta.og_image}
   jsonLD={jsonLD}
 >
 
   <section class="hero">
     <div class="container">
-      <h1>{SITE.name}</h1>
-      <p class="hero-tagline">{SITE.tagline}</p>
+      <h1>{c.heading}</h1>
+      <p class="hero-tagline">{c.tagline}</p>
       <div class="hero-actions">
-        <a href="#" class="btn btn-primary magnify-onhover">Get started</a>
-        <a href="#" class="btn btn-outline magnify-onhover">Learn more</a>
+        <a href={c.cta_primary_href} class="btn btn-primary magnify-onhover">{c.cta_primary}</a>
+        <a href={c.cta_secondary_href} class="btn btn-outline magnify-onhover">{c.cta_secondary}</a>
       </div>
     </div>
   </section>
@@ -61,17 +69,17 @@ const jsonLD = {
 
 <style>
   .hero {
-    padding-block: var(--space-24);
+    padding-block: 6rem;
     text-align: center;
   }
 
   .hero h1 {
-    margin-bottom: var(--space-4);
+    margin-bottom: 1rem;
   }
 
   .hero-tagline {
     font-size: var(--text-xl);
-    color: var(--color-text-muted);
+    color: var(--sandstone);
     max-width: 40ch;
     margin-inline: auto;
   }
@@ -81,35 +89,35 @@ const jsonLD = {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-top: var(--space-8);
+    gap: 1rem;
+    margin-top: 2rem;
   }
 
   .demo-section {
-    padding-block: var(--space-16);
-    border-top: var(--border-width) solid var(--color-border);
+    padding-block: 4rem;
+    border-top: 1px solid var(--tuna);
   }
 
   .demo-card {
     display: inline-flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: 1rem;
     align-items: center;
-    padding: var(--space-8);
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius-xl);
-    background: var(--color-surface);
+    padding: 2rem;
+    border: 1px solid var(--tuna);
+    border-radius: 0.75rem;
+    background: var(--woodsmoke);
   }
 
   .counter {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: 1rem;
   }
 
   .counter output {
     font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
+    font-weight: 700;
     min-width: 3ch;
     text-align: center;
   }

@@ -1,3 +1,5 @@
+![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC0D0?style=flat&logo=alpinedotjs&logoColor=black) ![Astro](https://img.shields.io/badge/Astro-FF5D01?style=flat&logo=astro&logoColor=white) ![Bun](https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white)
+
 # Astro Starter
 
 A static site template repo built with [Astro](https://astro.build) and [Alpine.js](https://alpinejs.dev). Optimised for minimal Javascript footprint, performance, a11y, and SEO.
@@ -40,11 +42,18 @@ bun preview    # preview the ./dist build locally
 │   │   ├── Nav.astro
 │   │   └── SEO.astro     # <title>, meta, canonical, OG, Twitter card
 │   │
-│   ├── config/
-│   │   └── site.ts       # Site-wide constants (name, URL, description, OG image)
+│   ├── content/
+│   │   ├── global.toon   # Site-wide values (name, URL, description, title postfix)
+│   │   ├── home.toon
+│   │   ├── about.toon
+│   │   ├── privacy.toon
+│   │   └── 404.toon
 │   │
 │   ├── layouts/
 │   │   └── BaseLayout.astro  # Root HTML shell, accepts SEO + JSON-LD props
+│   │
+│   ├── lib/
+│   │   └── content.ts    # loadGlobal() and loadPage() helpers
 │   │
 │   ├── pages/
 │   │   ├── index.astro
@@ -63,21 +72,67 @@ bun preview    # preview the ./dist build locally
 ```
 
 
+## Content
+
+All page content lives in `src/content/` as [TOON](https://toonformat.dev) files, a compact, human-readable format. Each page file follows a consistent three-section structure:
+
+```
+meta:
+  title: Page Title
+  description: Page-specific meta description.
+  og_image: /og-page.png
+
+options:
+  noindex: true   # omit or set null to allow indexing
+
+content:
+  heading: Welcome
+  tagline: A minimal starting point.
+```
+
+### Global content
+
+`src/content/global.toon` holds site-wide values used across all pages — site name, default description, default OG image, and the title postfix appended to every page title:
+
+```
+name: Site Name
+tagline: Short site tagline.
+description: Default meta description.
+url: https://example.com
+title_postfix: " — Site Name"
+og_image: /og-default.png
+```
+
+### Adding a content file for a new page
+
+Create `src/content/my-page.toon`, then load it in the corresponding `.astro` file:
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPage } from '../lib/content';
+
+const { meta, options, content } = loadPage('my-page');
+const c = content as { heading: string; body: string };
+---
+
+<BaseLayout
+  title={meta.title ?? undefined}
+  description={meta.description}
+  noindex={options?.noindex ?? false}
+>
+  <h1>{c.heading}</h1>
+  <p>{c.body}</p>
+</BaseLayout>
+```
+
+`loadGlobal()` is available for components that need site-wide values (name, URL, etc.).
+
 ## Configuration
 
 ### Site metadata
 
-Edit `src/config/site.ts` before new deployments
-
-```ts
-export const SITE = {
-  name: 'Your Site Name',
-  tagline: 'Short description',
-  description: 'Longer description used as the default meta description.',
-  url: 'https://foo.com',
-  defaultOgImage: '/og-default.png',
-} as const;
-```
+Edit `src/content/global.toon` to set the site name, description, URL, and title postfix before deploying.
 
 ### Production domain
 
@@ -98,7 +153,7 @@ Configured in `astro.config.mjs`:
 
 ```js
 server: {
-  port: 11220,
+  port: 14220,
 },
 ```
 
@@ -136,7 +191,7 @@ const navLinks = [
 
 ### SEO
 
-All props are optional and fall back to values in `src/config/site.ts`:
+All props are optional and fall back to values in `src/content/global.toon`:
 
 ```astro
 <BaseLayout
@@ -234,7 +289,7 @@ Pure CSS tooltip. Add a `data-tooltip` attribute to any element:
 <abbr data-tooltip="HyperText Markup Language">HTML</abbr>
 ```
 
-The tooltip appears below the element on hover. Styled with `--color-surface-2` and `--color-border-h`.
+The tooltip appears below the element on hover. Styled with `--woodsmoke` and `--tuna`.
 
 #### `.video-wrapper`
 

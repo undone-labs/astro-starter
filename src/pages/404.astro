@@ -1,20 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPage } from '../lib/content';
+
+const { meta, options, content } = loadPage('404');
+const c = content as {
+  code: string;
+  heading: string;
+  message: string;
+  cta: string;
+  cta_href: string;
+};
 ---
 
 <BaseLayout
-  title="Page not found"
-  description="The page you were looking for could not be found."
-  noindex={true}
+  title={meta.title ?? undefined}
+  description={meta.description}
+  noindex={options?.noindex ?? false}
 >
   <section class="error-page">
     <div class="container">
-      <p class="error-code" aria-hidden="true">404</p>
-      <h1>Page not found</h1>
-      <p class="error-message">
-        Sorry, we couldn't find what you were looking for.
-      </p>
-      <a href="/" class="btn btn-primary magnify-onhover">Go home</a>
+      <p class="error-code" aria-hidden="true">{c.code}</p>
+      <h1>{c.heading}</h1>
+      <p class="error-message">{c.message}</p>
+      <a href={c.cta_href} class="btn btn-primary magnify-onhover">{c.cta}</a>
     </div>
   </section>
 </BaseLayout>
@@ -24,7 +32,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-block: var(--space-24);
+    padding-block: 6rem;
     text-align: center;
   }
 
@@ -32,21 +40,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-4);
+    gap: 1rem;
   }
 
   .error-code {
     font-size: clamp(5rem, 20vw, 10rem);
-    font-weight: var(--font-bold);
+    font-weight: 700;
     line-height: 1;
-    color: var(--color-border);
+    color: var(--tuna);
     letter-spacing: -0.04em;
     -webkit-user-select: none;
     user-select: none;
   }
 
   .error-message {
-    color: var(--color-text-muted);
+    color: var(--sandstone);
     max-width: 40ch;
   }
 </style>

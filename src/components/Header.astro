@@ -1,12 +1,14 @@
 ---
 import Nav from './Nav.astro';
-import { SITE } from '../config/site';
+import { loadGlobal } from '../lib/content';
+
+const { name } = loadGlobal();
 ---
 
 <header class="site-header" role="banner">
   <div class="container header-inner">
-    <a href="/" class="site-logo" aria-label={`${SITE.name} — go to homepage`}>
-      {SITE.name}
+    <a href="/" class="site-logo" aria-label={`${name} — go to homepage`}>
+      {name}
     </a>
     <Nav />
   </div>
@@ -20,7 +22,7 @@ import { SITE } from '../config/site';
     background-color: rgb(13 14 18 / 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: var(--border-width) solid var(--color-border);
+    border-bottom: 1px solid var(--tuna);
     z-index: var(--z-header);
   }
 
@@ -32,15 +34,15 @@ import { SITE } from '../config/site';
   }
 
   .site-logo {
-    font-weight: var(--font-bold);
+    font-weight: 700;
     font-size: var(--text-lg);
-    color: var(--color-text);
+    color: var(--bone);
     text-decoration: none;
     letter-spacing: -0.02em;
     transition: color var(--transition-fast);
   }
 
   .site-logo:hover {
-    color: var(--color-primary);
+    color: var(--tan);
   }
 </style>
