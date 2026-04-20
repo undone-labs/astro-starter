@@ -70,5 +70,24 @@ const canonicalURL = Astro.site
     </main>
 
     <Footer />
+
+    <script>
+      document.addEventListener("click", (e) => {
+        if (window.matchMedia("(hover: hover)").matches) return;
+
+        const target = e.target as HTMLElement;
+        const tooltip = target.closest(".tooltip-soon")
+          || target.querySelector(":scope > .tooltip-soon")
+          || (target.parentElement?.querySelector(":scope > .tooltip-soon"));
+
+        document.querySelectorAll(".tooltip-soon.is-visible").forEach((el) => {
+          if (el !== tooltip) el.classList.remove("is-visible");
+        });
+
+        if (tooltip) {
+          tooltip.classList.toggle("is-visible");
+        }
+      });
+    </script>
   </body>
 </html>
