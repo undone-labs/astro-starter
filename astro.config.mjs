@@ -9,7 +9,7 @@ export default defineConfig({
   output: 'static',
 
   integrations: [
-    alpinejs(),
+    alpinejs({ entrypoint: '/src/entrypoint' }),
     sitemap(),
   ],
 
