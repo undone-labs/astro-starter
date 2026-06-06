@@ -131,7 +131,7 @@
   th {
     font-weight: 600;
     font-size: var(--text-sm);
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: 0.04em;
     padding-top: 0.75rem;
     color: var(--sandstone);
   }
@@ -167,7 +167,7 @@
     margin-bottom: 1.25rem;
     border-radius: 0.45rem;
     font-size: var(--text-sm);
-    line-height: var(--leading-relaxed);
+    line-height: 1.75;
     font-family: var(--font-mono);
     white-space: pre;
     overflow-x: auto;

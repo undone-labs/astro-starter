@@ -49,7 +49,7 @@ body {
   font-size: var(--text-base);
   color: var(--bone);
   background-color: var(--woodsmoke);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: 0.01em;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -63,7 +63,7 @@ main {
 a {
   color: var(--tan);
   text-underline-offset: 0.2em;
-  transition: color var(--transition-fast);
+  transition: color 200ms ease;
 }
 
 a:hover {
@@ -83,8 +83,8 @@ h6 { font-size: var(--text-base); }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--bone);
 }
 
@@ -144,7 +144,7 @@ p + p {
   font-size: var(--text-sm);
   text-decoration: none;
   z-index: var(--z-modal);
-  transition: top var(--transition-fast);
+  transition: top 200ms ease;
 }
 
 .skip-link:focus {
@@ -164,15 +164,15 @@ p + p {
   border-radius: 0.3rem;
   font-weight: 500;
   font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: 0.04em;
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
   transition:
-    background-color var(--transition-fast),
-    border-color     var(--transition-fast),
-    color            var(--transition-fast);
+    background-color 200ms ease,
+    border-color     200ms ease,
+    color            200ms ease;
 }
 
 /* Primary — warm amber fill, dark text */
@@ -221,8 +221,8 @@ p + p {
 
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: 700;
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--bone);
 }
 

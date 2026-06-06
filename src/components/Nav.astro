@@ -131,10 +131,10 @@ function isActive(href: string): boolean {
     color: var(--sandstone);
     font-size: var(--text-sm);
     font-weight: 500;
-    letter-spacing: var(--tracking-wide);
+    letter-spacing: 0.04em;
     text-decoration: none;
     padding-block: 0.25rem;
-    transition: color var(--transition-fast);
+    transition: color 200ms ease;
   }
 
   .nav-link:hover,
@@ -173,8 +173,8 @@ function isActive(href: string): boolean {
     border-radius: 9999px;
     transform-origin: center;
     transition:
-      transform var(--transition-base),
-      opacity  var(--transition-base);
+      transform 350ms ease,
+      opacity  350ms ease;
   }
 
   .nav-toggle.is-open .hamburger span:nth-child(1) {
@@ -201,7 +201,7 @@ function isActive(href: string): boolean {
       padding: 0.5rem;
       color: var(--bone);
       border-radius: 0.3rem;
-      transition: background-color var(--transition-fast);
+      transition: background-color 200ms ease;
     }
 
     .nav-toggle:hover {
