@@ -27,7 +27,8 @@ const c = content as {
   </section>
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @use '../styles/breakpoints' as *;
   .error-page {
     display: flex;
     align-items: center;
@@ -58,7 +59,7 @@ const c = content as {
     max-width: 40ch;
   }
 
-  @media (max-width: 30rem) {
+  @include small {
     .error-page {
       padding-block: 3rem;
     }

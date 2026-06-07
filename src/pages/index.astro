@@ -67,7 +67,8 @@ const jsonLD = {
 
 </BaseLayout>
 
-<style>
+<style lang="scss">
+  @use '../styles/breakpoints' as *;
   .hero {
     padding-block: 6rem;
     text-align: center;
@@ -122,7 +123,7 @@ const jsonLD = {
     text-align: center;
   }
 
-  @media (max-width: 30rem) {
+  @include small {
     .hero {
       padding-block: 3rem;
     }

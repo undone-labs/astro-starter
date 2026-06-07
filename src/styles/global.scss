@@ -1,3 +1,5 @@
+@use 'breakpoints' as *;
+
 /* Foundation-style base: grid, normalize, typography, common ui */
 @import './foundation.min.css';
 
@@ -406,23 +408,16 @@ body.no-cursor  { cursor: none; }
 }
 
 /* ---------------------------------------------------------------------------
-   Foundation-style breakpoints
-   tiny:   20rem  (320px)
-   small:  30rem  (480px)
-   medium: 40rem  (640px)
-   large:  48rem  (768px)
-   xl:     64rem  (1024px)
-   xxl:    80rem  (1280px)
-   xxxl:   96rem  (1536px)
+   Responsive
 --------------------------------------------------------------------------- */
 
-@media (max-width: 48rem) {
+@include large {
   .container {
     padding-inline: 1rem;
   }
 }
 
-@media (max-width: 30rem) {
+@include small {
   h1 { font-size: var(--text-2xl); }
   h2 { font-size: var(--text-xl); }
   h3 { font-size: var(--text-lg); }
