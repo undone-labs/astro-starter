@@ -1,7 +1,6 @@
-/* Foundation base — grid, normalize, typography, UI components */
+/* Foundation-style base: grid, normalize, typography, common ui */
 @import './foundation.min.css';
 
-/* Our reset adds modern CSS on top of Foundation's normalize */
 @import './reset.css';
 @import './variables.css';
 @import './prose.css';
@@ -404,4 +403,27 @@ body.no-cursor  { cursor: none; }
 .magnify-onhover:hover {
   transition: transform 250ms ease-in;
   transform: scale(1.05);
+}
+
+/* ---------------------------------------------------------------------------
+   Foundation-style breakpoints
+   tiny:   20rem  (320px)
+   small:  30rem  (480px)
+   medium: 40rem  (640px)
+   large:  48rem  (768px)
+   xl:     64rem  (1024px)
+   xxl:    80rem  (1280px)
+   xxxl:   96rem  (1536px)
+--------------------------------------------------------------------------- */
+
+@media (max-width: 48rem) {
+  .container {
+    padding-inline: 1rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  h1 { font-size: var(--text-2xl); }
+  h2 { font-size: var(--text-xl); }
+  h3 { font-size: var(--text-lg); }
 }

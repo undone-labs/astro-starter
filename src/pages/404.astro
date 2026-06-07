@@ -57,4 +57,14 @@ const c = content as {
     color: var(--sandstone);
     max-width: 40ch;
   }
+
+  @media (max-width: 30rem) {
+    .error-page {
+      padding-block: 3rem;
+    }
+
+    .error-code {
+      font-size: clamp(4rem, 15vw, 6rem);
+    }
+  }
 </style>
