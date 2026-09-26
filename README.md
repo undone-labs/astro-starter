@@ -348,7 +348,7 @@ CSS custom properties cannot be used directly inside `@media` queries, so these 
 - **WebKit/Blink** — styles file upload button; suppresses number input spinners; removes search field decorations
 - **All browsers** — cross-browser `::placeholder` colour (each vendor prefix as its own rule)
 - **iOS Safari** — prevents font-size inflation after orientation change (`text-size-adjust`)
-- **Touch devices** — removes tap highlight flash on links and buttons (`-webkit-tap-highlight-color`)
+- **Touch devices** — removes tap highlight flash on links, buttons and labels (`-webkit-tap-highlight-color`)
 
 Number input spinners are suppressed globally. Re-enable them on a per-element basis if needed:
 

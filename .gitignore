@@ -3,6 +3,7 @@
 
 # Build output
 dist/
+dev-dist/
 .next
 .nuxt
 .astro
