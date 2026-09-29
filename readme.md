@@ -6,20 +6,23 @@ A static site template repo built with [Astro](https://astro.build) and [Alpine.
 
 ## Stack
 
-- **Astro 6** — static output, client-side routing via `<ClientRouter />`
+- **Astro 7** — static output, client-side routing via `<ClientRouter />`
 - **Alpine.js** — lightweight interactivity, no build step
-- **Plain CSS** — custom properties, fluid type scale, no framework
 - **Bun** — package manager and script runner
+- **SCSS** — including breakpoint mixins and Foundation-type base styles
 
 
 ## Quickstart
 
 ```bash
-bun install    # requires node 22+
-bun dev        # local development
-bun build      # outputs to ./dist
-bun preview    # preview the ./dist build locally
+bun install        # requires node 22+
+bun run dev        # local development
+bun run build      # outputs to ./dist
+bun run preview    # preview the ./dist build locally
+bun run check      # type check .astro and .ts files
 ```
+
+_(Use `bun run build` rather than `bun build`, which invokes bun's own bundler instead of the script)_
 
 ## Directory structure
 
@@ -28,7 +31,7 @@ bun preview    # preview the ./dist build locally
 ├── public/
 │   ├── _headers          # Cloudflare Pages security headers + CSP
 │   ├── favicon.ico
-│   ├── fonts/            # Self-hosted webfonts
+│   ├── fonts/            # Selfhosted webfonts
 │   └── robots.txt
 │
 ├── src/
@@ -62,9 +65,13 @@ bun preview    # preview the ./dist build locally
 │   │   └── 404.astro
 │   │
 │   └── styles/
+│       ├── _breakpoints.scss  # Media query mixins
+│       ├── foundation.min.css # Grid, normalize, base ui
 │       ├── reset.css
 │       ├── variables.css
-│       └── global.css
+│       ├── prose.css          # .markdown long-form styles
+│       ├── x-browser.css      # Browser-specific fixes
+│       └── global.scss        # Entry point, imports the rest
 │
 ├── astro.config.mjs
 ├── tsconfig.json
@@ -232,7 +239,7 @@ Generated automatically at build time by `@astrojs/sitemap`. The output file is 
 Self hosted fonts are recommended.
 
 1. Move font files, ideally `.woff2` in `public/fonts/`
-2. Add `@font-face` declarations in `src/styles/global.css`
+2. Add `@font-face` declarations in `src/styles/global.scss`
 3. Update `--font-sans` (and/or `--font-display`) in `src/styles/variables.css`
 
 ```css
@@ -320,29 +327,35 @@ document.body.classList.add('no-cursor')   // hide cursor (e.g. custom cursor im
 
 ### Breakpoints
 
-Named breakpoint tokens are defined in `src/styles/variables.css` for reference:
+Breakpoints are mixins defined in `src/styles/_breakpoints.scss`:
 
-| Token            | Value  |
-|------------------|--------|
-| `--bp-tiny`      | 320px  |
-| `--bp-small`     | 480px  |
-| `--bp-medium`    | 640px  |
-| `--bp-large`     | 768px  |
-| `--bp-xlarge`    | 1024px |
-| `--bp-xxlarge`   | 1280px |
-| `--bp-xxxlarge`  | 1536px |
+| Mixin     | Max width         |
+|-----------|-------------------|
+| `tiny`    | 20rem (320px)     |
+| `small`   | 30rem (480px)     |
+| `medium`  | 40rem (640px)     |
+| `large`   | 48rem (768px)     |
+| `xl`      | 64rem (1024px)    |
+| `xxl`     | 80rem (1280px)    |
+| `xxxl`    | 96rem (1536px)    |
 
-CSS custom properties cannot be used directly inside `@media` queries, so these tokens serve as named documentation anchors. Use the raw pixel values in your media queries:
 
-```css
-@media (min-width: 768px) { /* --bp-large */
-  .my-component { display: grid; }
+Usage is as follows:
+```scss
+@use '../styles/breakpoints' as *;
+
+.my-component {
+  display: flex;
+
+  @include large {
+    display: block;
+  }
 }
 ```
 
 ### Cross-browser compatibility
 
-`src/styles/x-browser.css` (imported automatically via `global.css`) handles browser-specific quirks:
+`src/styles/x-browser.css` (imported automatically via `global.scss`) handles browser-specific quirks:
 
 - **Firefox** — removes inner button focus ring; fixes `select` focus ring rendering
 - **WebKit/Blink** — styles file upload button; suppresses number input spinners; removes search field decorations
