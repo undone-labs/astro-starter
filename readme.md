@@ -78,6 +78,11 @@ _(Use `bun run build` rather than `bun build`, which invokes bun's own bundler i
 └── package.json
 ```
 
+## Commit messages
+
+Commits must use a conventional prefix, `.githooks/` rejects anything else.
+
+Allowed types: `feat`, `fix`, `hotfix`, `refactor`, `style`, `chore`, `cleanup`, `perf`, `test`, `docs`, `content`
 
 ## Content
 
@@ -380,13 +385,6 @@ input[type='number'] {
 Production headers are configured in `public/_headers` (Cloudflare Pages format). The Content Security Policy includes `unsafe-eval` required by Alpine.js v3. Tighten `img-src` and `connect-src` as needed for your CDN or API domains.
 
 Dev server headers are set in the `vite.server.headers` block in `astro.config.mjs`.
-
-
-## Commit messages
-
-Commits must use a conventional prefix a `.githooks/` hook rejects anything else.
-
-Allowed types: `feat`, `fix`, `hotfix`, `refactor`, `style`, `chore`, `cleanup`, `perf`, `test`, `docs`, `content`
 
 
 ## Deployment
