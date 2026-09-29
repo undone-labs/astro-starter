@@ -6,10 +6,10 @@ A static site template repo built with [Astro](https://astro.build) and [Alpine.
 
 ## Stack
 
-- **Astro 7** — static output, client-side routing via `<ClientRouter />`
-- **Alpine.js** — lightweight interactivity, no build step
-- **Bun** — package manager and script runner
-- **SCSS** — including breakpoint mixins and Foundation-type base styles
+- **Astro 7**: static output, client-side routing via `<ClientRouter />`
+- **Alpine.js**: lightweight interactivity, no build step
+- **Bun**: package manager and script runner
+- **SCSS**: including breakpoint mixins and Foundation-type base styles
 
 
 ## Quickstart
