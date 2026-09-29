@@ -45,7 +45,7 @@ const c = content as {
   }
 
   .error-code {
-    font-size: clamp(5rem, 20vw, 10rem);
+    font-size: 10rem;
     font-weight: 700;
     line-height: 1;
     color: var(--tuna);
@@ -59,13 +59,19 @@ const c = content as {
     max-width: 40ch;
   }
 
+  @include large {
+    .error-code {
+      font-size: 8rem;
+    }
+  }
+
   @include small {
     .error-page {
       padding-block: 3rem;
     }
 
     .error-code {
-      font-size: clamp(4rem, 15vw, 6rem);
+      font-size: 5rem;
     }
   }
 </style>

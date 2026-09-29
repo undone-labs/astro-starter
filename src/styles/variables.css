@@ -25,22 +25,22 @@
    --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
       Consolas, 'DejaVu Sans Mono', monospace;
 
-   /* Fluid type scale */
-   --text-xs: clamp(0.75rem, 0.72rem + 0.14vw, 0.875rem);
-   --text-sm: clamp(0.875rem, 0.84rem + 0.18vw, 1rem);
-   --text-base: clamp(1rem, 0.95rem + 0.24vw, 1.125rem);
-   --text-lg: clamp(1.125rem, 1.06rem + 0.31vw, 1.25rem);
-   --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-   --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
-   --text-3xl: clamp(2rem, 1.6rem + 2vw, 2.5rem);
-   --text-4xl: clamp(2.5rem, 1.9rem + 3vw, 3.5rem);
+   /* Type scale, stepped down at the large breakpoint in global.scss */
+   --text-xs: 0.875rem;
+   --text-sm: 1rem;
+   --text-base: 1.125rem;
+   --text-lg: 1.25rem;
+   --text-xl: 1.5rem;
+   --text-2xl: 2rem;
+   --text-3xl: 2.5rem;
+   --text-4xl: 3.5rem;
 
 
    /* -------------------------------------------------------------------------
      Layout
   -------------------------------------------------------------------------- */
    --container-width: 75rem;
-   --container-padding: clamp(1rem, 5vw, 2rem);
+   --container-padding: 2rem;
    --header-height: 4rem;
 
 
