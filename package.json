@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^1.0.0",
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.6",
     "@toon-format/toon": "^4.1.1",
     "alpinejs": "^3.17.4",
-    "astro": "^7.3.5"
+    "astro": "^7.4.13"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "sass": "^1.105.0",
     "typescript": "6"
   }
