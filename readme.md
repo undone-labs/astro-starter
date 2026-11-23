@@ -15,7 +15,7 @@ A static site template repo built with [Astro](https://astro.build) and [Alpine.
 ## Quickstart
 
 ```bash
-bun install        # requires node 22+
+bun install        # requires node 24+
 bun run dev        # local development
 bun run build      # outputs to ./dist
 bun run preview    # preview the ./dist build locally
@@ -393,5 +393,5 @@ Assuming a static site host like Cloudflare Pages, Github Pages, Netlify, etc.
 
 - Build command: `bun run build`
 - Set output directory: `dist`
-- Ensure Node version is set to **22** or higher in environment settings
+- Ensure Node version is set to **24** or higher in environment settings
 - Add any environment variables (none by default)

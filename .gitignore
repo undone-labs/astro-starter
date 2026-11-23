@@ -105,3 +105,6 @@ test-results/
 .wdio/
 .cy/
 .grunt
+
+# npm lockfile, this project uses bun
+package-lock.json
